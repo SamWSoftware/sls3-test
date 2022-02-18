@@ -1,57 +1,52 @@
-import type { AWS } from '@serverless/typescript';
+import type { AWS } from "@serverless/typescript";
 
-import hello from '@functions/hello';
+import hello from "@functions/hello";
 
 const serverlessConfiguration: AWS = {
-  service: 'sls-v3-test',
-  frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  service: "sls-v3-test",
+  frameworkVersion: "3",
+  plugins: ["serverless-esbuild"],
   provider: {
-    name: 'aws',
-    runtime: 'nodejs14.x',
-    region: 'eu-central-1',
-    
-    environment: {
-      someVariable: '${env:someVariable}',
-    },
+    name: "aws",
+    runtime: "nodejs14.x",
+    region: "eu-central-1",
   },
-  useDotenv: true,
 
   params: {
     dev: {
-      message: 'Woop Woop, dev has been deployed.',
-      dynamoTableName: 'dev-sls-v3-test',
+      message: "Woop Woop, dev has been deployed.",
+      dynamoTableName: "dev-sls-v3-test",
     },
     prod: {
-      message: 'Now the stage is prod.',
-      dynamoTableName: 'dev-sls-v3-test',
-    }
+      message: "Now the stage is prod.",
+      dynamoTableName: "dev-sls-v3-test",
+    },
   },
   functions: { hello },
   resources: {
     Resources: {
       table1: {
-          Type: 'AWS::DynamoDB::Table',
-          DeletionPolicy: 'Retain',
-          Properties: {
-              TableName: '${param.tableName}',
-              AttributeDefinitions: [
-                  {
-                      AttributeName: 'id',
-                      AttributeType: 'S',
-                  },
-              ],
-  
-              KeySchema: [
-                  {
-                      AttributeName: 'id',
-                      KeyType: 'HASH',
-                  },
-              ],
-              BillingMode: 'PAY_PER_REQUEST',
-          },
+        Type: "AWS::DynamoDB::Table",
+        DeletionPolicy: "Retain",
+        Properties: {
+          TableName: "${param.tableName}",
+          AttributeDefinitions: [
+            {
+              AttributeName: "id",
+              AttributeType: "S",
+            },
+          ],
+
+          KeySchema: [
+            {
+              AttributeName: "id",
+              KeyType: "HASH",
+            },
+          ],
+          BillingMode: "PAY_PER_REQUEST",
+        },
       },
-    }
+    },
   },
 
   package: { individually: true },
@@ -60,10 +55,10 @@ const serverlessConfiguration: AWS = {
       bundle: true,
       minify: false,
       sourcemap: true,
-      exclude: ['aws-sdk'],
-      target: 'node14',
-      define: { 'require.resolve': undefined },
-      platform: 'node',
+      exclude: ["aws-sdk"],
+      target: "node14",
+      define: { "require.resolve": undefined },
+      platform: "node",
       concurrency: 10,
     },
   },
