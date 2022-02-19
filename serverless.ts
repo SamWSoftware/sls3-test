@@ -29,7 +29,7 @@ const serverlessConfiguration: AWS = {
         Type: "AWS::DynamoDB::Table",
         DeletionPolicy: "Retain",
         Properties: {
-          TableName: "${param.dynamoTableName}",
+          TableName: "${param:dynamoTableName}",
           AttributeDefinitions: [
             {
               AttributeName: "id",
